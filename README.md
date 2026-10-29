@@ -5,6 +5,16 @@ A comprehensive, production-grade cybersecurity web application that detects phi
 The system performs strictly **lexical and structural analysis** directly on the submitted URL string—making zero external network or HTTP requests to guarantee fast, safe, and air-gapped threat detection.
 
 ---
+## 👩‍💻 Team Members
+
+| Name | Student ID |
+|------|------------|
+| Anakha Ramesh | KU2407U798 |
+| Sanchita Girgilani | KU2407U777 |
+
+**Project:** Phishing URL Detection System Using Machine Learning and Deep Learning
+
+**Academic Project:** Deep Learning Mini Project
 
 ## Key Features
 
@@ -228,3 +238,4 @@ Returns accuracy comparison data and links to the visual evaluation plots.
 
 ### 4. `GET /images/{image_name}`
 Serves the project's evaluation graphics (`model_accuracy_comparison.png`, `confusion_matrix_comparison.png`, `deep_learning_training_graphs.png`).
+
