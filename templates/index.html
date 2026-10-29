@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phishing URL Detection System | ML & DL Threat Classifier</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20viewBox=%220%200%20100%20100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand-badge">
+        <span class="pulse-dot"></span>
+        Deep Learning & ML Security Engine
+      </div>
+      <h1>Phishing URL Detection System</h1>
+      <p class="subtitle">
+        High-precision multi-model threat classifier combining Random Forest, Linear SVM, Deep Neural Network (DNN), and 1D Convolutional Neural Network (CNN).
+      </p>
+    </header>
+
+    <!-- URL Input Section -->
+    <section class="input-card">
+      <div class="url-input-wrapper">
+        <span class="input-icon">🔍</span>
+        <input 
+          type="text" 
+          id="urlInput" 
+          class="url-input" 
+          placeholder="Enter a URL to inspect (e.g., https://example.com/account/login)..." 
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button id="analyzeBtn" class="btn-analyze">
+          <span>⚡</span> Analyze URL
+        </button>
+      </div>
+
+      <!-- Quick Test Chips -->
+      <div class="examples-row">
+        <span class="examples-label">Quick Test Samples:</span>
+        <button class="chip" data-url="https://www.google.com">Google (Legitimate)</button>
+        <button class="chip" data-url="https://www.wikipedia.org">Wikipedia (Legitimate)</button>
+        <button class="chip phish-hint" data-url="http://paypal-security-update-account.com/login/verify.php?user=admin">Fake PayPal (Phish)</button>
+        <button class="chip phish-hint" data-url="http://192.168.1.1/bank/signin/confirm/wallet/password.html">IP Phish (Phish)</button>
+      </div>
+    </section>
+
+    <!-- Error Alert Banner -->
+    <div id="errorAlert" class="alert-error" role="alert">
+      <span>⚠️</span>
+      <span id="errorMsg">An error occurred while analyzing the URL.</span>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingBox" class="loading-box">
+      <div class="spinner"></div>
+      <div class="loading-text">Extracting 25 URL Features & Evaluating Models...</div>
+      <div class="loading-subtext">Executing Random Forest, Linear SVM, DNN, and 1D CNN inference</div>
+    </div>
+
+    <!-- Results Section -->
+    <main id="resultsContainer" class="results-container">
+      <!-- Overall Verdict Banner -->
+      <section id="overallCard" class="overall-card">
+        <div class="verdict-info">
+          <div id="verdictIcon" class="verdict-icon">🛡️</div>
+          <div>
+            <div class="verdict-title">Overall Security Classification</div>
+            <div id="verdictStatus" class="verdict-status">LEGITIMATE URL</div>
+            <div id="analyzedUrlText" class="analyzed-url">https://example.com</div>
+          </div>
+        </div>
+
+        <!-- Consensus Meter -->
+        <div class="consensus-box">
+          <div class="consensus-header">
+            <span>Model Consensus:</span>
+            <span id="consensusBadge" class="consensus-badge">0% Phishing</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="consensusProgress" class="progress-bar-fill"></div>
+          </div>
+          <div id="consensusCaption" class="consensus-caption">
+            0 of 4 models classified this URL as PHISHING.
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 Model Prediction Cards -->
+      <section>
+        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">
+          Individual Model Classifications (4 Models)
+        </h2>
+        <div id="modelsGrid" class="models-grid">
+          <!-- Populated by app.js -->
+        </div>
+      </section>
+
+      <!-- Detailed Analysis Tabs -->
+      <section class="tabs-section">
+        <div class="tabs-header">
+          <button class="tab-btn active" data-tab="tabFeatures">Extracted Features (25)</button>
+          <button class="tab-btn" data-tab="tabGraphs">Model Training & Evaluation Graphs</button>
+          <button class="tab-btn" data-tab="tabArchitecture">Technical Specifications</button>
+        </div>
+
+        <!-- Tab 1: Extracted Features Table -->
+        <div id="tabFeatures" class="tab-content active">
+          <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem;">
+            Extracted lexical and structural URL attributes matching the exact 25 features and ordering from <code>feature_names.json</code>.
+          </p>
+          <div class="features-table-wrapper">
+            <table class="features-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Feature Name</th>
+                  <th>Category</th>
+                  <th>Extracted Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody id="featuresTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 2: Graphs & Performance Visualizations -->
+        <div id="tabGraphs" class="tab-content">
+          <div class="graphs-grid">
+            <div class="graph-card">
+              <h3>Model Accuracy Comparison</h3>
+              <div class="graph-desc">Cross-model evaluation across RF (99.59%), SVM (99.38%), DNN (99.57%), and CNN (99.57%).</div>
+              <div class="graph-img-container">
+                <img src="/images/model_accuracy_comparison.png" alt="Model Accuracy Comparison" loading="lazy">
+              </div>
+            </div>
+
+            <div class="graph-card">
+              <h3>Confusion Matrix Comparison</h3>
+              <div class="graph-desc">True vs. Predicted performance across test dataset for all four trained models.</div>
+              <div class="graph-img-container">
+                <img src="/images/confusion_matrix_comparison.png" alt="Confusion Matrix Comparison" loading="lazy">
+              </div>
+            </div>
+
+            <div class="graph-card" style="grid-column: 1 / -1;">
+              <h3>Deep Learning Training Dynamics</h3>
+              <div class="graph-desc">Loss convergence and accuracy progression over epochs for the DNN and CNN architectures.</div>
+              <div class="graph-img-container">
+                <img src="/images/deep_learning_training_graphs.png" alt="Deep Learning Training Graphs" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Technical Specifications -->
+        <div id="tabArchitecture" class="tab-content">
+          <div class="arch-grid">
+            <div class="arch-card">
+              <h3>Decision & Consensus Logic</h3>
+              <p>The system evaluates all 4 classifiers independently:</p>
+              <ul>
+                <li><strong>Ensemble Threshold:</strong> If 2 or more models classify a URL as PHISHING, the overall verdict is PHISHING. Otherwise, it is LEGITIMATE.</li>
+                <li><strong>Consensus Percentage:</strong> The percentage of models voting PHISHING (0%, 25%, 50%, 75%, or 100%).</li>
+                <li><strong>Strict Lexical Analysis:</strong> Operates entirely without fetching HTTP content to prevent dangerous network execution.</li>
+              </ul>
+            </div>
+
+            <div class="arch-card">
+              <h3>Preprocessing Pipeline</h3>
+              <p>Feature scaling adheres strictly to trained specifications:</p>
+              <ul>
+                <li><strong>Random Forest:</strong> Receives raw unscaled 25 features directly.</li>
+                <li><strong>Linear SVM:</strong> Standardized using the scaler fitted during training.</li>
+                <li><strong>DNN:</strong> Standardized 25-feature input passed through four dense layers.</li>
+                <li><strong>1D CNN:</strong> Standardized features reshaped to (1, 25, 1).</li>
+              </ul>
+            </div>
+
+            <div class="arch-card">
+              <h3>Deep Learning Architectures</h3>
+              <p>Trained Keras neural architectures:</p>
+              <ul>
+                <li><strong>DNN Architecture:</strong> 128 → 64 → 32 → 1, using ReLU hidden activations and a sigmoid output.</li>
+                <li><strong>CNN Architecture:</strong> Conv1D (64 filters, kernel size 3) → MaxPooling → Conv1D (128 filters, kernel size 3) → MaxPooling → Flatten → Dense (64) → Sigmoid output.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      Phishing URL Detection System &bull; Machine Learning & Deep Learning Project &bull; Powered by FastAPI & Scikit-Learn
+    </footer>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
